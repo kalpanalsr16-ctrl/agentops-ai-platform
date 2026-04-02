@@ -997,31 +997,31 @@ button,input,select,textarea{font-family:inherit;}
 <!-- SIDEBAR -->
 <nav id="sidebar">
   <div class="ss">Platform</div>
-  <div class="si active" onclick="nav('overview');closeSidebar()" id="n-overview"><span class="si-icon">◈</span>Overview</div>
-  <div class="si" onclick="nav('incidents');closeSidebar()" id="n-incidents"><span class="si-icon">⚡</span>Incident Command<span class="si-badge b-r" id="n-incidents-badge">3</span></div>
+  <div class="si active" data-nav='overview' id="n-overview"><span class="si-icon">◈</span>Overview</div>
+  <div class="si" data-nav='incidents' id="n-incidents"><span class="si-icon">⚡</span>Incident Command<span class="si-badge b-r" id="n-incidents-badge">3</span></div>
   <div class="ss">Governance</div>
-  <div class="si" onclick="nav('risk');closeSidebar()" id="n-risk"><span class="si-icon">⬡</span>Risk Simulator</div>
-  <div class="si" onclick="nav('eval');closeSidebar()" id="n-eval"><span class="si-icon">▤</span>Evaluation</div>
-  <div class="si" onclick="nav('canary');closeSidebar()" id="n-canary"><span class="si-icon">⇄</span>Canary Deployment<span class="si-badge b-n">NEW</span></div>
-  <div class="si" onclick="nav('cost');closeSidebar()" id="n-cost"><span class="si-icon">◎</span>Cost vs Quality<span class="si-badge b-n">NEW</span></div>
+  <div class="si" data-nav='risk' id="n-risk"><span class="si-icon">⬡</span>Risk Simulator</div>
+  <div class="si" data-nav='eval' id="n-eval"><span class="si-icon">▤</span>Evaluation</div>
+  <div class="si" data-nav='canary' id="n-canary"><span class="si-icon">⇄</span>Canary Deployment<span class="si-badge b-n">NEW</span></div>
+  <div class="si" data-nav='cost' id="n-cost"><span class="si-icon">◎</span>Cost vs Quality<span class="si-badge b-n">NEW</span></div>
   <div class="ss">Debug</div>
-  <div class="si" onclick="nav('trace');closeSidebar()" id="n-trace"><span class="si-icon">▶</span>Trace &amp; Replay<span class="si-badge b-n">NEW</span></div>
-  <div class="si" onclick="nav('attr');closeSidebar()" id="n-attr"><span class="si-icon">◎</span>Failure Attribution<span class="si-badge b-r">2</span></div>
-  <div class="si" onclick="nav('obs');closeSidebar()" id="n-obs"><span class="si-icon">⌁</span>Observability<span class="si-badge b-r">3</span></div>
+  <div class="si" data-nav='trace' id="n-trace"><span class="si-icon">▶</span>Trace &amp; Replay<span class="si-badge b-n">NEW</span></div>
+  <div class="si" data-nav='attr' id="n-attr"><span class="si-icon">◎</span>Failure Attribution<span class="si-badge b-r">2</span></div>
+  <div class="si" data-nav='obs' id="n-obs"><span class="si-icon">⌁</span>Observability<span class="si-badge b-r">3</span></div>
   <div class="ss">Improvement</div>
-  <div class="si" onclick="nav('feedback');closeSidebar()" id="n-feedback"><span class="si-icon">↻</span>Feedback Loop</div>
-  <div class="si" onclick="nav('compare');closeSidebar()" id="n-compare"><span class="si-icon">⧉</span>Agent Comparison</div>
-  <div class="si" onclick="nav('execution');closeSidebar()" id="n-execution"><span class="si-icon">◉</span>Execution Tracking<span class="si-badge b-r">5</span></div>
-  <div class="si" onclick="nav('intel');closeSidebar()" id="n-intel"><span class="si-icon">◈</span>System Intelligence<span class="si-badge b-n">NEW</span></div>
+  <div class="si" data-nav='feedback' id="n-feedback"><span class="si-icon">↻</span>Feedback Loop</div>
+  <div class="si" data-nav='compare' id="n-compare"><span class="si-icon">⧉</span>Agent Comparison</div>
+  <div class="si" data-nav='execution' id="n-execution"><span class="si-icon">◉</span>Execution Tracking<span class="si-badge b-r">5</span></div>
+  <div class="si" data-nav='intel' id="n-intel"><span class="si-icon">◈</span>System Intelligence<span class="si-badge b-n">NEW</span></div>
   <div class="sdiv"></div>
   <div class="ss">Views</div>
-  <div class="si" onclick="nav('exec');closeSidebar()" id="n-exec"><span class="si-icon">◻</span>Exec Briefing</div>
-  <div class="si" onclick="nav('devsb');closeSidebar()" id="n-devsb"><span class="si-icon">⟨⟩</span>Developer View</div>
+  <div class="si" data-nav='exec' id="n-exec"><span class="si-icon">◻</span>Exec Briefing</div>
+  <div class="si" data-nav='devsb' id="n-devsb"><span class="si-icon">⟨⟩</span>Developer View</div>
   <div class="sdiv"></div>
   <div class="ss">Reference</div>
-  <div class="si" onclick="nav('arch');closeSidebar()" id="n-arch"><span class="si-icon">⊞</span>System Design</div>
-  <div class="si" onclick="nav('prd');closeSidebar()" id="n-prd"><span class="si-icon">☰</span>PRD &amp; Tradeoffs</div>
-  <div class="si" onclick="nav('schema');closeSidebar()" id="n-schema"><span class="si-icon">{}</span>Data Schema</div>
+  <div class="si" data-nav='arch' id="n-arch"><span class="si-icon">⊞</span>System Design</div>
+  <div class="si" data-nav='prd' id="n-prd"><span class="si-icon">☰</span>PRD &amp; Tradeoffs</div>
+  <div class="si" data-nav='schema' id="n-schema"><span class="si-icon">{}</span>Data Schema</div>
 </nav>
 
 <main id="main">
@@ -1049,8 +1049,8 @@ button,input,select,textarea{font-family:inherit;}
       <div class="db-label red">Recommended action right now</div>
       <div class="db-text" id="ov-banner-text"><strong>Delist 2 live agents with P0 safety failures.</strong> Prompt injection confirmed. 23 submissions past SLA — expedite 8 enterprise agents in security review. Rejection rate tracking to 45% by Thursday without intervention.</div>
       <div class="db-actions">
-        <button class="db-btn primary" onclick="nav('incidents')">View incidents</button>
-        <button class="db-btn secondary" onclick="nav('attr')">See attribution</button>
+        <button class="db-btn primary" data-nav='incidents'>View incidents</button>
+        <button class="db-btn secondary" data-nav='attr'>See attribution</button>
       </div>
     </div>
   </div>
@@ -1061,19 +1061,19 @@ button,input,select,textarea{font-family:inherit;}
       <div class="ic-label">Revenue at risk</div>
       <div class="ic-value red" id="imp-rev">$847K</div>
       <div class="ic-sub" id="imp-rev-sub">23 enterprise agents past SLA · 8 blocked in security review · avg deal size $37K</div>
-      <span class="ic-link" onclick="nav('execution')">View execution status →</span>
+      <span class="ic-link" data-nav='execution'>View execution status →</span>
     </div>
     <div class="impact-card amber-accent">
       <div class="ic-label">Users impacted this week</div>
       <div class="ic-value amber" id="imp-users">4,290</div>
       <div class="ic-sub" id="imp-users-sub">1,840 received incorrect response · 2,450 hit degraded experience · 3.8% thumbs-down rate</div>
-      <span class="ic-link" onclick="nav('obs')">View observability →</span>
+      <span class="ic-link" data-nav='obs'>View observability →</span>
     </div>
     <div class="impact-card blue-accent">
       <div class="ic-label">Churn risk signal</div>
       <div class="ic-value blue" id="imp-churn">Medium</div>
       <div class="ic-sub" id="imp-churn-sub">Developer response rate 71% (target 85%). 3 enterprise partners SLA-breached. 2 sent support escalations.</div>
-      <span class="ic-link" onclick="nav('exec')">View exec briefing →</span>
+      <span class="ic-link" data-nav='exec'>View exec briefing →</span>
     </div>
   </div>
 
@@ -1208,7 +1208,7 @@ button,input,select,textarea{font-family:inherit;}
       <div class="sc-lbl">Rejection rate</div>
       <div class="sc-val red" id="s-rej">38%</div>
       <div class="sc-delta bad" id="s-rej-d">↑ +7pp · target &lt;25%</div>
-      <span class="sc-action" onclick="nav('attr')">Investigate →</span>
+      <span class="sc-action" data-nav='attr'>Investigate →</span>
     </div>
     <div class="sc">
       <div class="sc-lbl">Live agents</div>
@@ -1700,7 +1700,7 @@ Payroll calculation</textarea></div>
     <div style="flex:1">
       <div class="db-label red">P0 — Immediate action required</div>
       <div class="db-text"><strong>Security Agent: prompt injection vulnerability confirmed.</strong> Live and serving users. Auto-delist triggered — awaiting human confirmation. Delist now and send incident report within 2h.</div>
-      <div class="db-actions"><button class="db-btn danger" onclick="nav('incidents')">Confirm delist</button><button class="db-btn secondary">View incident log</button></div>
+      <div class="db-actions"><button class="db-btn danger" data-nav='incidents'>Confirm delist</button><button class="db-btn secondary">View incident log</button></div>
     </div>
   </div>
   <div class="sg">
@@ -1813,10 +1813,10 @@ Payroll calculation</textarea></div>
         <div class="dh-title">Developer Dashboard</div>
         <div class="dh-sub">Your agent quality, rejection history, and fix actions. Resolve issues before they trigger delisting.</div>
       </div>
-      <div class="dh-actions"><button class="btn primary" onclick="nav('risk')">Run pre-publish check</button></div>
+      <div class="dh-actions"><button class="btn primary" data-nav='risk'>Run pre-publish check</button></div>
     </div>
   </div>
-  <div class="decision-banner critical"><div class="db-icon">●</div><div style="flex:1"><div class="db-label red">Action required on your agents</div><div class="db-text"><strong>Finance Assistant v1 quality score dropped to 71%</strong> — below 75% minimum. Root cause: model update Feb 28 changed hallucination behaviour on tax calculations. Apply temperature override (T=0.2) and resubmit. SLA: fix within 7 days before conditional delist.</div><div class="db-actions"><button class="db-btn primary" onclick="nav('eval')">View eval results</button><button class="db-btn secondary" onclick="nav('attr')">See root cause</button></div></div></div>
+  <div class="decision-banner critical"><div class="db-icon">●</div><div style="flex:1"><div class="db-label red">Action required on your agents</div><div class="db-text"><strong>Finance Assistant v1 quality score dropped to 71%</strong> — below 75% minimum. Root cause: model update Feb 28 changed hallucination behaviour on tax calculations. Apply temperature override (T=0.2) and resubmit. SLA: fix within 7 days before conditional delist.</div><div class="db-actions"><button class="db-btn primary" data-nav='eval'>View eval results</button><button class="db-btn secondary" data-nav='attr'>See root cause</button></div></div></div>
   <div class="g3">
     <div class="card"><div class="ch"><div class="ct">Finance Assistant v1</div><span class="chip cr">Critical</span></div><div class="cb"><div style="font-family:var(--mono);font-size:28px;font-weight:500;color:var(--red);margin-bottom:7px">71%</div><div class="slb">Below 75% threshold</div><div class="srow"><span class="slbl">Task success</span><div class="strack"><div class="sfill sfr" style="width:71%"></div></div><span class="snum" style="color:var(--red)">71%</span></div><div class="srow"><span class="slbl">Hallucination</span><div class="strack"><div class="sfill sfr" style="width:58%"></div></div><span class="snum" style="color:var(--red)">5.8%</span></div><div class="srow"><span class="slbl">Safety</span><div class="strack"><div class="sfill sfg" style="width:94%"></div></div><span class="snum">94%</span></div><div style="margin-top:10px;padding:7px 9px;background:var(--red-bg);border:1px solid var(--red-bd);border-radius:3px;font-size:11px;color:var(--red)">Apply T=0.2 on tax calculations. Resubmit by Mar 17.</div></div></div>
     <div class="card"><div class="ch"><div class="ct">Expense Bot</div><span class="chip cb2">New · Watch</span></div><div class="cb"><div style="font-family:var(--mono);font-size:28px;font-weight:500;color:var(--green);margin-bottom:7px">82%</div><div class="slb">7-day watch window</div><div class="srow"><span class="slbl">Task success</span><div class="strack"><div class="sfill sfg" style="width:82%"></div></div><span class="snum">82%</span></div><div class="srow"><span class="slbl">Hallucination</span><div class="strack"><div class="sfill sfa" style="width:32%"></div></div><span class="snum" style="color:var(--amber)">3.2%</span></div><div class="srow"><span class="slbl">Safety</span><div class="strack"><div class="sfill sfg" style="width:96%"></div></div><span class="snum">96%</span></div><div style="margin-top:10px;padding:7px 9px;background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:3px;font-size:11px;color:var(--blue)">New agent: full monitoring 7 days post-publish. No action required.</div></div></div>
@@ -1844,7 +1844,7 @@ Payroll calculation</textarea></div>
         <div class="exp-tradeoff">⚠ Tradeoff: Lower temperature may reduce creativity on open-ended queries by 8%. Only apply to structured calculation task types.</div>
         <div class="exp-actions">
           <button class="btn primary" onclick="alert('Experiment EXP-01 queued for eval run')">Run this experiment</button>
-          <button class="btn" onclick="nav('risk')">Simulate first</button>
+          <button class="btn" data-nav='risk'>Simulate first</button>
         </div>
       </div>
 
@@ -1862,7 +1862,7 @@ Payroll calculation</textarea></div>
         <div class="exp-tradeoff">⚠ Tradeoff: May cause agent to refuse valid queries where context is incomplete. Expected refusal rate increase: +1.2%.</div>
         <div class="exp-actions">
           <button class="btn primary" onclick="alert('Experiment EXP-02 queued for eval run')">Run this experiment</button>
-          <button class="btn" onclick="nav('risk')">Simulate first</button>
+          <button class="btn" data-nav='risk'>Simulate first</button>
         </div>
       </div>
 
@@ -1880,7 +1880,7 @@ Payroll calculation</textarea></div>
         <div class="exp-tradeoff">⚠ Tradeoff: gpt-4o-mini has lower reasoning capability on complex multi-step calculations. Accuracy on compound tax scenarios may drop 4pp.</div>
         <div class="exp-actions">
           <button class="btn primary" onclick="alert('Experiment EXP-03 queued for eval run')">Run this experiment</button>
-          <button class="btn" onclick="nav('cost')">See cost/quality tradeoff</button>
+          <button class="btn" data-nav='cost'>See cost/quality tradeoff</button>
         </div>
       </div>
     </div>
@@ -2103,7 +2103,7 @@ Output: { attributed_cause: <span class="cs">"model_change"</span>, confidence: 
           <div class="exec-due late">Due: 3h ago</div>
           <div class="exec-pbar"><div class="exec-pfill" style="width:100%;background:var(--red)"></div></div>
         </div>
-        <button onclick="nav('incidents')" style="padding:4px 9px;border-radius:3px;font-size:10px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);cursor:pointer;margin-left:8px">Act now</button>
+        <button data-nav='incidents' style="padding:4px 9px;border-radius:3px;font-size:10px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);cursor:pointer;margin-left:8px">Act now</button>
       </div>
       <div class="exec-row">
         <div class="exec-sev es-overdue">OVER<br>DUE</div>
@@ -2142,7 +2142,7 @@ Output: { attributed_cause: <span class="cs">"model_change"</span>, confidence: 
           <div class="exec-due soon">Due: Mar 16 · 2d remaining</div>
           <div class="exec-pbar"><div class="exec-pfill" style="width:50%"></div></div>
         </div>
-        <button onclick="nav('attr')" style="padding:4px 9px;border-radius:3px;font-size:10px;background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);cursor:pointer;margin-left:8px">View</button>
+        <button data-nav='attr' style="padding:4px 9px;border-radius:3px;font-size:10px;background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);cursor:pointer;margin-left:8px">View</button>
       </div>
       <div class="exec-row">
         <div class="exec-sev es-blocked">BLO<br>CKED</div>
@@ -2155,7 +2155,7 @@ Output: { attributed_cause: <span class="cs">"model_change"</span>, confidence: 
           <div class="exec-due late">Blocked: 9d</div>
           <div class="exec-pbar"><div class="exec-pfill" style="width:0%;background:var(--purple)"></div></div>
         </div>
-        <button onclick="nav('exec')" style="padding:4px 9px;border-radius:3px;font-size:10px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd);cursor:pointer;margin-left:8px">Escalate to leadership</button>
+        <button data-nav='exec' style="padding:4px 9px;border-radius:3px;font-size:10px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-bd);cursor:pointer;margin-left:8px">Escalate to leadership</button>
       </div>
     </div>
   </div>
@@ -2357,6 +2357,23 @@ Output: { attributed_cause: <span class="cs">"model_change"</span>, confidence: 
 </div>
 
 <script>
+console.log('index.html script start', location.href);
+// Early-safe nav (fallback if full script later fails)
+function nav(v){
+  try{
+    document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.si').forEach(el=>el.classList.remove('active'));
+    const vEl=document.getElementById('view-'+v);
+    if(vEl)vEl.classList.add('active');
+    const ni=document.getElementById('n-'+v);
+    if(ni)ni.classList.add('active');
+    const bc=document.getElementById('tb-bc'); if(bc) bc.textContent=v.charAt(0).toUpperCase()+v.slice(1);
+    if(v==='overview' && typeof renderCharts === 'function') renderCharts();
+    if(v==='trace' && typeof renderRunList === 'function') renderRunList();
+  }catch(e){console.warn('fallback nav error',e);}
+}
+window.nav=nav;
+console.log('early nav bound', typeof nav, typeof window.nav);
 // ═══════════════════════════════════
 // COMPANY CONFIGS
 // ═══════════════════════════════════
@@ -2665,6 +2682,24 @@ function nav(v){
   if(v==='cost')setTimeout(renderCostChart,60);
   if(v==='intel')setTimeout(renderIntelChart,60);
 }
+window.nav = nav;
+console.log('nav bound', typeof nav, typeof window.nav);
+function initSidebarNav(){
+  document.querySelectorAll('#sidebar .si').forEach(el => {
+    const target = el.getAttribute('data-nav');
+    if(!target) return;
+    el.onclick = event => {
+      event.preventDefault();
+      if(typeof window.nav === 'function') window.nav(target);
+      if(typeof closeSidebar === 'function') closeSidebar();
+    };
+  });
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', initSidebarNav);
+}else{
+  initSidebarNav();
+}
 
 // ═══════════════════════════════════
 // COMPANY / ENV / PERSONA
@@ -2735,7 +2770,7 @@ function setCompany(co){
       <div style="flex:1">
         <div class="top3-action">${a.title}</div>
         <div class="top3-why">${a.why}</div>
-        <button class="top3-cta" onclick="nav('${a.link}')">Go to ${a.link.charAt(0).toUpperCase()+a.link.slice(1)} →</button>
+        <button class="top3-cta" data-nav='${a.link}'>Go to ${a.link.charAt(0).toUpperCase()+a.link.slice(1)} →</button>
       </div>
     </div>`).join('');
 
@@ -2848,7 +2883,7 @@ function renderAgents(agents){
     const qc=a.q?(a.q>=88?'var(--green)':a.q>=75?'var(--amber)':'var(--red)'):'var(--text3)';
     const qv=a.q?`<span style="font-family:var(--mono);color:${qc}">${a.q}%</span>`:'<span style="color:var(--text3)">—</span>';
     const ds=a.risk==='p0'?'color:var(--red);font-size:11px':'font-size:11px;color:var(--text2)';
-    const action=a.risk==='p0'?`<button onclick="nav('incidents')" style="padding:3px 8px;border-radius:3px;font-size:10px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);cursor:pointer">Delist</button>`:a.status==='degrading'||a.status==='drifted'?`<button onclick="nav('attr')" style="padding:3px 8px;border-radius:3px;font-size:10px;background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);cursor:pointer">Investigate</button>`:`<span style="color:var(--text3);font-size:11px">—</span>`;
+    const action=a.risk==='p0'?`<button data-nav='incidents' style="padding:3px 8px;border-radius:3px;font-size:10px;background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);cursor:pointer">Delist</button>`:a.status==='degrading'||a.status==='drifted'?`<button data-nav='attr' style="padding:3px 8px;border-radius:3px;font-size:10px;background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-bd);cursor:pointer">Investigate</button>`:`<span style="color:var(--text3);font-size:11px">—</span>`;
     return `<tr><td>${a.name}</td><td style="color:var(--text2)">${a.cat}</td><td>${qv}</td><td>${sm[a.status]||''}</td><td>${rm[a.risk]||''}</td><td style="${ds}">${a.decision}</td><td>${action}</td></tr>`;
   }).join('');
 }
@@ -2935,6 +2970,8 @@ function renderAttrList(){
     ba.innerHTML=data.slice(0,2).map((a,i)=>`<button class="db-btn ${i===0?'primary':'secondary'}" onclick="selectAttr(${i})">View ${a.name.split(' ').slice(0,2).join(' ')} →</button>`).join('');
   }
 }
+
+function selectAttr(i){
   selAttr=i; renderAttrList();
   const data = window._activeAttr || CO_ATTR[currentCo] || [];
   const a=data[i];
@@ -3252,7 +3289,8 @@ async function sendMsg(){
   const sys=`${co.aiCtx} Keep answers concise (max 150 words), specific to this platform's actual data, and actionable.`;
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:350,system:sys,messages:[{role:'user',content:msg}]})});
-    const data=await res.json();const reply=data.content?.[0]?.text||'No response.';
+    const data=await res.json();
+    const reply=(data.content && data.content[0] && data.content[0].text) ? data.content[0].text : 'No response.';
     thinkEl.className='aim bot';thinkEl.innerHTML=reply.replace(/\n/g,'<br>');
   }catch(e){thinkEl.className='aim bot';thinkEl.innerHTML='Add your Anthropic API key to the fetch headers to enable Ask Lumen.';}
 }
@@ -3341,6 +3379,24 @@ function toggleSidebar(){
 function closeSidebar(){
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebar-overlay').classList.remove('open');
+}
+</script>
+<script>
+function nav(page) {
+  console.log("nav working", page);
+
+  const target = document.getElementById(page);
+
+  if (!target) {
+    console.error("Page not found:", page);
+    return;
+  }
+
+  document.querySelectorAll('[id]').forEach(el => {
+    if (el.id !== page) el.style.display = 'none';
+  });
+
+  target.style.display = 'block';
 }
 </script>
 </body>
