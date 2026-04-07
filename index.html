@@ -317,7 +317,7 @@ button,input,select,textarea{font-family:inherit;}
 
 /* ── VIEWS ── */
 .view{display:none;}
-.view.active{display:block;animation:fadeUp var(--t2) var(--ease) both;}
+.view.active{display:block;}
 
 /* ── PAGE HEADER ── */
 .dh{margin-bottom:24px;}
@@ -1175,33 +1175,7 @@ button,input,select,textarea{font-family:inherit;}
       </div>
     </div>
   </div>
-    <div class="ch" style="cursor:pointer" onclick="toggleExp('htw')">
-      <div class="ct">How Lumen works — data flow</div>
-      <span class="exp-trigger" style="font-size:11px"><span id="htw-icon" class="exp-icon">▸</span>Expand</span>
-    </div>
-    <div id="htw-body" class="exp-body">
-      <div class="cb">
-        <div class="flowrow">
-          <div class="fb"><div class="fbt">User interaction</div><div class="fbs">query → response</div></div>
-          <div class="farr">→</div>
-          <div class="fb"><div class="fbt">Event logging</div><div class="fbs">latency · outcome · capability</div></div>
-          <div class="farr">→</div>
-          <div class="fb" style="background:var(--blue-bg);border-color:var(--blue-bd)"><div class="fbt" style="color:var(--blue)">Stream processor</div><div class="fbs">real-time anomaly</div></div>
-          <div class="farr">→</div>
-          <div class="fb"><div class="fbt">Eval engine</div><div class="fbs">batch · weekly</div></div>
-          <div class="farr">→</div>
-          <div class="fb"><div class="fbt">Risk engine</div><div class="fbs">attribution · score</div></div>
-          <div class="farr">→</div>
-          <div class="fb" style="border-color:var(--blue-bd)"><div class="fbt" style="color:var(--blue)">This dashboard</div><div class="fbs">decisions + actions</div></div>
-        </div>
-        <div class="g3" style="font-size:11px;color:var(--text2);line-height:1.6;margin-top:8px">
-          <div><strong style="color:var(--text)">Inputs:</strong> Agent ID, intent declared vs routed, latency, user outcome (success / thumbs-down / reprompt / exit), model version, safety flags.</div>
-          <div><strong style="color:var(--text)">Processing:</strong> Real-time stream catches P0 safety instantly. Weekly batch runs 50-prompt eval per agent. Risk engine scores pre-publish submissions against 5 weighted signals.</div>
-          <div><strong style="color:var(--text)">Outputs:</strong> Decision banners, risk scores with explainability, failure attribution with confidence, alert queue, feedback test cases.</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 
   <div class="sg">
     <div class="sc crit">
@@ -1283,7 +1257,6 @@ button,input,select,textarea{font-family:inherit;}
       <div class="db-text">Live agents with confirmed safety vulnerabilities are serving users right now. Auto-delist staged, awaiting human confirmation. Escalates automatically in 2 hours if not confirmed.</div>
       <div class="db-actions">
         <button class="db-btn danger" onclick="confirmDelist()">Confirm delist all P0</button>
-        <button class="db-btn secondary">Escalate to security</button>
       </div>
     </div>
   </div>
@@ -1431,25 +1404,6 @@ Payroll calculation</textarea></div>
         </div>
       </div>
     </div>
-  </div>
-      <div class="cb">
-        <div style="border:1px solid var(--amber-bd);border-radius:var(--r);padding:9px 11px;background:var(--amber-bg);margin-bottom:9px;font-size:12px">
-          <strong>Payroll Assistant v1</strong> — overlap <span style="font-family:var(--mono)">0.87</span> <span class="chip cr">CONFLICT</span><br>
-          <span style="font-size:11px;color:var(--text2)">Both declare "payroll calculation". Users split unpredictably.</span>
-        </div>
-        <div style="border:1px solid var(--border);border-radius:var(--r);padding:9px 11px;background:var(--bg);font-size:12px">
-          <strong>Tax Expert Bot v3</strong> — overlap <span style="font-family:var(--mono)">0.79</span> <span class="chip cg">OK</span><br>
-          <span style="font-size:11px;color:var(--text2)">Below threshold. Monitor.</span>
-        </div>
-        <div style="margin-top:11px"><div class="slb">Recommendation</div>
-          <div id="rec-text" style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:9px 11px;font-size:12px;line-height:1.55">
-            <strong>Conditional approval.</strong> Resolve routing conflict + complete manifest. Estimated post-fix risk: 42 (Low).
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ══ EVALUATION ══ -->
 <div class="view" id="view-eval">
@@ -1471,7 +1425,7 @@ Payroll calculation</textarea></div>
     <div class="db-icon">◐</div>
     <div style="flex:1">
       <div class="db-label amber">Decision needed</div>
-      <div class="db-text"><strong>Hallucination rate at 4.1% — above 3% threshold.</strong> 3 of 50 eval prompts failed. Payroll tax calculation returned hallucinated CA tax rate. Block this version or require developer fix before publishing.</div>
+      <div class="db-text" id="eval-banner-text"><strong>Hallucination rate at 4.1% — above 3% threshold.</strong> 3 of 50 eval prompts failed. Payroll tax calculation returned hallucinated CA tax rate. Block this version or require developer fix before publishing.</div>
       <div class="db-actions"><button class="db-btn danger">Block version</button><button class="db-btn secondary">Send to developer</button></div>
     </div>
   </div>
@@ -2359,21 +2313,6 @@ Output: { attributed_cause: <span class="cs">"model_change"</span>, confidence: 
 <script>
 console.log('index.html script start', location.href);
 // Early-safe nav (fallback if full script later fails)
-function nav(v){
-  try{
-    document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
-    document.querySelectorAll('.si').forEach(el=>el.classList.remove('active'));
-    const vEl=document.getElementById('view-'+v);
-    if(vEl)vEl.classList.add('active');
-    const ni=document.getElementById('n-'+v);
-    if(ni)ni.classList.add('active');
-    const bc=document.getElementById('tb-bc'); if(bc) bc.textContent=v.charAt(0).toUpperCase()+v.slice(1);
-    if(v==='overview' && typeof renderCharts === 'function') renderCharts();
-    if(v==='trace' && typeof renderRunList === 'function') renderRunList();
-  }catch(e){console.warn('fallback nav error',e);}
-}
-window.nav=nav;
-console.log('early nav bound', typeof nav, typeof window.nav);
 // ═══════════════════════════════════
 // COMPANY CONFIGS
 // ═══════════════════════════════════
@@ -2400,7 +2339,8 @@ const CONFIGS = {
       {color:'b',title:'Apply temperature override to Finance Assistant v1 (T=0.2)',why:'Root cause confirmed (91% confidence): model version change → hallucination 2.1% → 5.8%.',link:'attr'}
     ],
     categories:['Productivity','IT & Ops','HR & People','Finance','Sales & CRM','Industry'],
-    aiCtx:'You are Lumen, embedded in Microsoft M365 Copilot Agent Store (Platform A). 1,284 live agents. 38% rejection rate (target <25%). 2 P0 safety incidents: Security Agent prompt injection, Finance Assistant out-of-scope advice. 23 overdue submissions, $847K revenue at risk. Top issues: scope declaration failures 34%, routing conflict IT & Ops (overlap 0.87), Finance Assistant hallucination from gpt-4o model update (91% confidence attribution). Answer specifically about M365 Copilot agents, enterprise IT/HR/Finance use cases, and Microsoft platform dynamics.'
+    aiCtx:'You are Lumen, embedded in Microsoft M365 Copilot Agent Store (Platform A). 1,284 live agents. 38% rejection rate (target <25%). 2 P0 safety incidents: Security Agent prompt injection, Finance Assistant out-of-scope advice. 23 overdue submissions, $847K revenue at risk. Top issues: scope declaration failures 34%, routing conflict IT & Ops (overlap 0.87), Finance Assistant hallucination from gpt-4o model update (91% confidence attribution). Answer specifically about M365 Copilot agents, enterprise IT/HR/Finance use cases, and Microsoft platform dynamics.',
+    evalData:{tsr:'87%',hall:'4.1%',safe:'94%',lat:'1.8s',banner:'<strong>Hallucination rate at 4.1% — above 3% threshold.</strong> 3 of 50 eval prompts failed. Finance Assistant payroll calculation returned hallucinated CA tax rate. Block or require developer fix before publishing.'}
   },
   intuit:{
     name:'Platform B', label:'Intuit · TurboTax & QuickBooks AI',
@@ -2424,7 +2364,8 @@ const CONFIGS = {
       {color:'b',title:'Unblock 12 overdue submissions before tax season peak',why:'Tax season starts in 3 weeks. 12 agents waiting avg 2.4 days. Token volume already up 34%.',link:'execution'}
     ],
     categories:['Tax filing','Bookkeeping','Payroll','Invoicing','Credit','Compliance'],
-    aiCtx:'You are Lumen, embedded in Intuit TurboTax & QuickBooks AI platform (Platform B). 847 financial AI assistants. 19% rejection rate (target <10%). P0: Tax Filing Agent v2.3 using stale 2024 IRS bracket data — 920 users affected, SOX and IRS compliance risk. Tax season peak approaching — token volume up 34%. Payroll Calculator hallucination rate 6.1% (threshold 3%) on multi-state CA+TX calculations. Answer specifically about tax compliance, IRS bracket rules, QuickBooks bookkeeping, payroll multi-state calculations, and financial regulatory risk.'
+    aiCtx:'You are Lumen, embedded in Intuit TurboTax & QuickBooks AI platform (Platform B). 847 financial AI assistants. 19% rejection rate (target <10%). P0: Tax Filing Agent v2.3 using stale 2024 IRS bracket data — 920 users affected, SOX and IRS compliance risk. Tax season peak approaching — token volume up 34%. Payroll Calculator hallucination rate 6.1% (threshold 3%) on multi-state CA+TX calculations. Answer specifically about tax compliance, IRS bracket rules, QuickBooks bookkeeping, payroll multi-state calculations, and financial regulatory risk.',
+    evalData:{tsr:'81%',hall:'6.1%',safe:'91%',lat:'2.1s',banner:'<strong>Hallucination rate at 6.1% — critical.</strong> Tax Filing Agent v2.3 using stale 2024 IRS bracket data. 5 of 50 eval prompts failed on 2025 tax bracket questions. Immediate remediation required.'}
   },
   google:{
     name:'Platform C', label:'Google · AI Search & Workspace Agents',
@@ -2448,7 +2389,8 @@ const CONFIGS = {
       {color:'b',title:'Reduce latency p95 below 1.8s SLA — currently 1.9s',why:'SLA breach active. p99 at 3.1s. Query volume up 21%. Assistant routing inefficiency adding ~120ms overhead.',link:'obs'}
     ],
     categories:['Search','Assistant','Workspace','Cloud','Maps','Shopping'],
-    aiCtx:'You are Lumen, embedded in Google AI Search & Workspace Agents (Platform C). 3,847 agents across Search, Assistant, Workspace, Cloud, Maps, Shopping. 12% rejection rate. 3 routing conflicts in Assistant — 28,400 queries mis-routed. Latency p95 1.9s exceeds 1.8s SLA. Search accuracy −1.8pp post Gemini 1.5 Pro update. Token volume 18.7B/day. Answer specifically about Google Search quality, Workspace agent conflicts, Gemini model accuracy, latency at Google scale, and query resolution rate optimization.'
+    aiCtx:'You are Lumen, embedded in Google AI Search & Workspace Agents (Platform C). 3,847 agents across Search, Assistant, Workspace, Cloud, Maps, Shopping. 12% rejection rate. 3 routing conflicts in Assistant — 28,400 queries mis-routed. Latency p95 1.9s exceeds 1.8s SLA. Search accuracy −1.8pp post Gemini 1.5 Pro update. Token volume 18.7B/day. Answer specifically about Google Search quality, Workspace agent conflicts, Gemini model accuracy, latency at Google scale, and query resolution rate optimization.',
+    evalData:{tsr:'91%',hall:'2.2%',safe:'96%',lat:'1.9s',banner:'<strong>Latency p95 at 1.9s — above 1.8s SLA.</strong> 3 routing conflicts in Assistant degrading eval scores. Cloud Ops Assistant accuracy dropped 13pp post Gemini 1.5 Pro update. Eval rerun scheduled.'}
   },
   uber:{
     name:'Platform D', label:'Uber · Marketplace Decision Systems',
@@ -2472,7 +2414,8 @@ const CONFIGS = {
       {color:'b',title:'Fix Surge Pricing Engine — 3,400 riders affected in NYC/LA/CHI',why:'Surge accuracy −2pp post model update. Rider complaints +18%. Event-season distribution shift suspected.',link:'attr'}
     ],
     categories:['Driver support','Rider support','Surge pricing','Route optimization','Fraud detection','Eats'],
-    aiCtx:'You are Lumen, embedded in Uber Marketplace Decision Systems (Platform D). 2,140 real-time decision agents. 500ms is a HARD SLA — exceeding it causes trip booking failures. CRITICAL: Fraud Detection Agent blocking 340 valid driver payouts/day ($1.2M/week). Driver NPS dropped 4 points. Surge Pricing accuracy −2pp affecting 3,400 riders in NYC/LA/CHI. Latency p95 480ms — only 20ms buffer. Token volume 6.8B/day (+12% surge load). Answer specifically about driver/rider marketplace dynamics, fraud detection precision/recall tradeoffs, surge pricing algorithm accuracy, trip completion rate, and the 500ms hard SLA constraint.'
+    aiCtx:'You are Lumen, embedded in Uber Marketplace Decision Systems (Platform D). 2,140 real-time decision agents. 500ms is a HARD SLA — exceeding it causes trip booking failures. CRITICAL: Fraud Detection Agent blocking 340 valid driver payouts/day ($1.2M/week). Driver NPS dropped 4 points. Surge Pricing accuracy −2pp affecting 3,400 riders in NYC/LA/CHI. Latency p95 480ms — only 20ms buffer. Token volume 6.8B/day (+12% surge load). Answer specifically about driver/rider marketplace dynamics, fraud detection precision/recall tradeoffs, surge pricing algorithm accuracy, trip completion rate, and the 500ms hard SLA constraint.',
+    evalData:{tsr:'84%',hall:'3.8%',safe:'89%',lat:'480ms',banner:'<strong>Fraud Detection eval: false positive rate 4.2% — above 1.8% baseline.</strong> Precision/recall threshold miscalibrated post model update. 340 valid driver payouts blocked/day. Threshold recalibration required.'}
   }
 };
 
@@ -2668,6 +2611,8 @@ function nav(v){
   if(vEl)vEl.classList.add('active');
   const ni=document.getElementById('n-'+v);
   if(ni)ni.classList.add('active');
+  window.scrollTo(0,0);
+  const mainEl=document.getElementById('main');if(mainEl)mainEl.scrollTop=0;
   const names={overview:'Overview',incidents:'Incident Command',risk:'Risk Simulator',eval:'Evaluation Framework',canary:'Canary Deployment',cost:'Cost vs Quality',trace:'Trace & Replay',attr:'Failure Attribution',obs:'Observability',feedback:'Feedback Loop',compare:'Agent Comparison',exec:'Exec Briefing',devsb:'Developer View',execution:'Execution Tracking',intel:'System Intelligence',arch:'System Design',prd:'PRD & Tradeoffs',schema:'Data Schema'};
   document.getElementById('tb-bc').textContent=names[v]||v;
   if(v==='overview')renderCharts();
@@ -2682,25 +2627,6 @@ function nav(v){
   if(v==='cost')setTimeout(renderCostChart,60);
   if(v==='intel')setTimeout(renderIntelChart,60);
 }
-window.nav = nav;
-console.log('nav bound', typeof nav, typeof window.nav);
-function initSidebarNav(){
-  document.querySelectorAll('#sidebar .si').forEach(el => {
-    const target = el.getAttribute('data-nav');
-    if(!target) return;
-    el.onclick = event => {
-      event.preventDefault();
-      if(typeof window.nav === 'function') window.nav(target);
-      if(typeof closeSidebar === 'function') closeSidebar();
-    };
-  });
-}
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded', initSidebarNav);
-}else{
-  initSidebarNav();
-}
-
 // ═══════════════════════════════════
 // COMPANY / ENV / PERSONA
 // ═══════════════════════════════════
@@ -2822,6 +2748,15 @@ function setCompany(co){
   // ── Risk Simulator category dropdown ──
   const sc=document.getElementById('sim-cat');
   if(sc) sc.innerHTML=c.categories.map(cat=>`<option>${cat}</option>`).join('');
+
+  // ── Eval metrics — company-specific ──
+  if(c.evalData){
+    const ed=c.evalData;
+    setEl('ev-tsr',ed.tsr); setEl('ev-hall',ed.hall);
+    setEl('ev-safe',ed.safe); setEl('ev-lat',ed.lat);
+    const evalBanner=document.getElementById('eval-banner-text');
+    if(evalBanner) evalBanner.innerHTML=ed.banner;
+  }
 
   // ── Re-render active charts ──
   if(curView==='overview') renderCharts();
@@ -3367,6 +3302,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   setCompany('ms');
   runSim();
   startRealtime();
+
+  // Global data-nav click handler — handles sidebar, buttons, links
+  document.addEventListener('click', function(e){
+    const el = e.target.closest('[data-nav]');
+    if(!el) return;
+    e.preventDefault();
+    const target = el.getAttribute('data-nav');
+    if(target){ nav(target); closeSidebar(); }
+  });
   document.getElementById('n-ab') && document.getElementById('n-ab').addEventListener('click',()=>setTimeout(renderAbChart,60));
   document.getElementById('n-canary') && document.getElementById('n-canary').addEventListener('click',()=>setTimeout(renderAbChart,60));
 });
@@ -3381,35 +3325,5 @@ function closeSidebar(){
   document.getElementById('sidebar-overlay').classList.remove('open');
 }
 </script>
-<script>
-function nav(page) {
-  console.log("nav working", page);
-
-  const target = document.getElementById(page);
-
-  if (!target) {
-    console.error("Page not found:", page);
-    return;
-  }
-
-  document.querySelectorAll('[id]').forEach(el => {
-    if (el.id !== page) el.style.display = 'none';
-  });
-
-  target.style.display = 'block';
-}
-</script>
-<div id="incidents" class="view">
-  <div class="dh">
-    <div class="dh-title">Incidents</div>
-    <div class="dh-sub">All incident tracking will appear here</div>
-  </div>
-
-  <div class="card">
-    <div class="cb">
-      Incidents page is now connected ✅
-    </div>
-  </div>
-</div>
 </body>
 </html>
