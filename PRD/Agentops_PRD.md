@@ -7,8 +7,6 @@
 
 ---
 
-## TL;DR
-
 Lumen OS is a control plane for AI agents — helping teams monitor, debug, and improve agent performance in real time.
 
 As AI systems scale, teams struggle with silent failures, lack of observability, and slow debugging cycles. Lumen OS solves this by providing a unified layer for agent reliability, evaluation, and decision-making.
