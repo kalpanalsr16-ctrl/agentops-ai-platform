@@ -160,6 +160,53 @@ button,input,select,textarea{font-family:inherit;}
 }
 .tb-select:hover{border-color:var(--b2);}
 .tb-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(47,91,234,.1);}
+/* Locked selector (recruiter mode) */
+.tb-select:disabled,
+.tb-select.locked{
+  opacity:.45;cursor:not-allowed;pointer-events:none;
+  background-color:var(--s2);color:var(--ink-4);border-color:var(--b0);
+  filter:grayscale(1);
+}
+.tb-lock-ico{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:6px;margin-left:-4px;
+  background:var(--s2);border:1px solid var(--b0);color:var(--ink-3);
+  font-size:11px;
+}
+body.recruiter-mode .tb-persona,
+body.recruiter-mode #env-badge{opacity:.45;pointer-events:none;filter:grayscale(.6);}
+
+/* Recruiter disclaimer banner — fixed strip below ctrlbar */
+#demo-banner{
+  display:none;position:fixed;left:0;right:0;
+  top:calc(var(--topbar) + var(--ctrl));
+  z-index:399;
+  background:linear-gradient(90deg, rgba(47,91,234,.06), rgba(124,58,237,.06));
+  border-bottom:1px solid var(--b0);
+  padding:8px 14px;font-size:11.5px;line-height:1.45;
+  color:var(--ink-2);font-family:var(--sans);
+  align-items:center;gap:10px;flex-wrap:wrap;
+}
+@media(min-width:768px){
+  #demo-banner{left:var(--sb);padding:8px 22px;}
+}
+body.recruiter-mode #demo-banner{display:flex;}
+body.recruiter-mode main#main{margin-top:calc(var(--topbar) + var(--ctrl) + 38px);}
+@media(max-width:767px){
+  body.recruiter-mode main#main{margin-top:calc(var(--topbar) + var(--ctrl) + 56px);}
+}
+#demo-banner .db-tag{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;
+  background:var(--accent);color:#fff;padding:3px 8px;border-radius:var(--r20);
+  text-transform:uppercase;flex-shrink:0;
+}
+#demo-banner .db-text{flex:1;min-width:200px;color:var(--ink-2);}
+#demo-banner .db-text b{color:var(--ink-1);font-weight:600;}
+#demo-banner .db-info{
+  font-size:10.5px;color:var(--ink-3);font-family:var(--mono);
+  padding:3px 8px;border:1px solid var(--b1);border-radius:var(--r8);
+  background:var(--s1);cursor:help;flex-shrink:0;
+}
 
 /* Env badge */
 .env-badge{
@@ -317,7 +364,7 @@ button,input,select,textarea{font-family:inherit;}
 
 /* ── VIEWS ── */
 .view{display:none;}
-.view.active{display:block;}
+.view.active{display:block;animation:fadeUp var(--t2) var(--ease) both;}
 
 /* ── PAGE HEADER ── */
 .dh{margin-bottom:24px;}
@@ -1024,6 +1071,13 @@ button,input,select,textarea{font-family:inherit;}
   <div class="si" data-nav='schema' id="n-schema"><span class="si-icon">{}</span>Data Schema</div>
 </nav>
 
+<!-- ══ RECRUITER DEMO BANNER (shown only when ?demo=intuit URL flag is set; sibling of main, not inside it) ══ -->
+<div id="demo-banner" role="note" aria-label="Demo disclaimer">
+  <span class="db-tag">Portfolio Demo</span>
+  <span class="db-text">This is an <b>illustrative product framework</b> built by a candidate for the Intuit Sr Staff PM (Virtual Expert Platform) role. Metrics shown for <b>Platform B · Intuit</b> are <b>simulated</b>, modelled from publicly available sources (press releases, Intuit financial reports, IRS / SOX guidance). Not affiliated with or endorsed by Intuit Inc.</span>
+  <span class="db-info" title="Built as a thinking artifact to demonstrate product reasoning, prioritisation and 0→1 framing for the Conversations Observability mandate.">ⓘ&nbsp;Why this exists</span>
+</div>
+
 <main id="main">
 
 <!-- ══ OVERVIEW ══ -->
@@ -1175,7 +1229,33 @@ button,input,select,textarea{font-family:inherit;}
       </div>
     </div>
   </div>
-  
+    <div class="ch" style="cursor:pointer" onclick="toggleExp('htw')">
+      <div class="ct">How Lumen works — data flow</div>
+      <span class="exp-trigger" style="font-size:11px"><span id="htw-icon" class="exp-icon">▸</span>Expand</span>
+    </div>
+    <div id="htw-body" class="exp-body">
+      <div class="cb">
+        <div class="flowrow">
+          <div class="fb"><div class="fbt">User interaction</div><div class="fbs">query → response</div></div>
+          <div class="farr">→</div>
+          <div class="fb"><div class="fbt">Event logging</div><div class="fbs">latency · outcome · capability</div></div>
+          <div class="farr">→</div>
+          <div class="fb" style="background:var(--blue-bg);border-color:var(--blue-bd)"><div class="fbt" style="color:var(--blue)">Stream processor</div><div class="fbs">real-time anomaly</div></div>
+          <div class="farr">→</div>
+          <div class="fb"><div class="fbt">Eval engine</div><div class="fbs">batch · weekly</div></div>
+          <div class="farr">→</div>
+          <div class="fb"><div class="fbt">Risk engine</div><div class="fbs">attribution · score</div></div>
+          <div class="farr">→</div>
+          <div class="fb" style="border-color:var(--blue-bd)"><div class="fbt" style="color:var(--blue)">This dashboard</div><div class="fbs">decisions + actions</div></div>
+        </div>
+        <div class="g3" style="font-size:11px;color:var(--text2);line-height:1.6;margin-top:8px">
+          <div><strong style="color:var(--text)">Inputs:</strong> Agent ID, intent declared vs routed, latency, user outcome (success / thumbs-down / reprompt / exit), model version, safety flags.</div>
+          <div><strong style="color:var(--text)">Processing:</strong> Real-time stream catches P0 safety instantly. Weekly batch runs 50-prompt eval per agent. Risk engine scores pre-publish submissions against 5 weighted signals.</div>
+          <div><strong style="color:var(--text)">Outputs:</strong> Decision banners, risk scores with explainability, failure attribution with confidence, alert queue, feedback test cases.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="sg">
     <div class="sc crit">
@@ -1257,6 +1337,7 @@ button,input,select,textarea{font-family:inherit;}
       <div class="db-text">Live agents with confirmed safety vulnerabilities are serving users right now. Auto-delist staged, awaiting human confirmation. Escalates automatically in 2 hours if not confirmed.</div>
       <div class="db-actions">
         <button class="db-btn danger" onclick="confirmDelist()">Confirm delist all P0</button>
+        <button class="db-btn secondary">Escalate to security</button>
       </div>
     </div>
   </div>
@@ -1405,6 +1486,23 @@ Payroll calculation</textarea></div>
       </div>
     </div>
   </div>
+      <div class="cb">
+        <div style="border:1px solid var(--amber-bd);border-radius:var(--r);padding:9px 11px;background:var(--amber-bg);margin-bottom:9px;font-size:12px">
+          <strong>Payroll Assistant v1</strong> — overlap <span style="font-family:var(--mono)">0.87</span> <span class="chip cr">CONFLICT</span><br>
+          <span style="font-size:11px;color:var(--text2)">Both declare "payroll calculation". Users split unpredictably.</span>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:var(--r);padding:9px 11px;background:var(--bg);font-size:12px">
+          <strong>Tax Expert Bot v3</strong> — overlap <span style="font-family:var(--mono)">0.79</span> <span class="chip cg">OK</span><br>
+          <span style="font-size:11px;color:var(--text2)">Below threshold. Monitor.</span>
+        </div>
+        <div style="margin-top:11px"><div class="slb">Recommendation</div>
+          <div id="rec-text" style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:9px 11px;font-size:12px;line-height:1.55">
+            <strong>Conditional approval.</strong> Resolve routing conflict + complete manifest. Estimated post-fix risk: 42 (Low).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ EVALUATION ══ -->
@@ -1427,7 +1525,7 @@ Payroll calculation</textarea></div>
     <div class="db-icon">◐</div>
     <div style="flex:1">
       <div class="db-label amber">Decision needed</div>
-      <div class="db-text" id="eval-banner-text"><strong>Hallucination rate at 4.1% — above 3% threshold.</strong> 3 of 50 eval prompts failed. Payroll tax calculation returned hallucinated CA tax rate. Block this version or require developer fix before publishing.</div>
+      <div class="db-text"><strong>Hallucination rate at 4.1% — above 3% threshold.</strong> 3 of 50 eval prompts failed. Payroll tax calculation returned hallucinated CA tax rate. Block this version or require developer fix before publishing.</div>
       <div class="db-actions"><button class="db-btn danger">Block version</button><button class="db-btn secondary">Send to developer</button></div>
     </div>
   </div>
@@ -2313,8 +2411,6 @@ Output: { attributed_cause: <span class="cs">"model_change"</span>, confidence: 
 </div>
 
 <script>
-console.log('index.html script start', location.href);
-// Early-safe nav (fallback if full script later fails)
 // ═══════════════════════════════════
 // COMPANY CONFIGS
 // ═══════════════════════════════════
@@ -2341,8 +2437,7 @@ const CONFIGS = {
       {color:'b',title:'Apply temperature override to Finance Assistant v1 (T=0.2)',why:'Root cause confirmed (91% confidence): model version change → hallucination 2.1% → 5.8%.',link:'attr'}
     ],
     categories:['Productivity','IT & Ops','HR & People','Finance','Sales & CRM','Industry'],
-    aiCtx:'You are Lumen, embedded in Microsoft M365 Copilot Agent Store (Platform A). 1,284 live agents. 38% rejection rate (target <25%). 2 P0 safety incidents: Security Agent prompt injection, Finance Assistant out-of-scope advice. 23 overdue submissions, $847K revenue at risk. Top issues: scope declaration failures 34%, routing conflict IT & Ops (overlap 0.87), Finance Assistant hallucination from gpt-4o model update (91% confidence attribution). Answer specifically about M365 Copilot agents, enterprise IT/HR/Finance use cases, and Microsoft platform dynamics.',
-    evalData:{tsr:'87%',hall:'4.1%',safe:'94%',lat:'1.8s',banner:'<strong>Hallucination rate at 4.1% — above 3% threshold.</strong> 3 of 50 eval prompts failed. Finance Assistant payroll calculation returned hallucinated CA tax rate. Block or require developer fix before publishing.'}
+    aiCtx:'You are Lumen, embedded in Microsoft M365 Copilot Agent Store (Platform A). 1,284 live agents. 38% rejection rate (target <25%). 2 P0 safety incidents: Security Agent prompt injection, Finance Assistant out-of-scope advice. 23 overdue submissions, $847K revenue at risk. Top issues: scope declaration failures 34%, routing conflict IT & Ops (overlap 0.87), Finance Assistant hallucination from gpt-4o model update (91% confidence attribution). Answer specifically about M365 Copilot agents, enterprise IT/HR/Finance use cases, and Microsoft platform dynamics.'
   },
   intuit:{
     name:'Platform B', label:'Intuit · TurboTax & QuickBooks AI',
@@ -2366,8 +2461,7 @@ const CONFIGS = {
       {color:'b',title:'Unblock 12 overdue submissions before tax season peak',why:'Tax season starts in 3 weeks. 12 agents waiting avg 2.4 days. Token volume already up 34%.',link:'execution'}
     ],
     categories:['Tax filing','Bookkeeping','Payroll','Invoicing','Credit','Compliance'],
-    aiCtx:'You are Lumen, embedded in Intuit TurboTax & QuickBooks AI platform (Platform B). 847 financial AI assistants. 19% rejection rate (target <10%). P0: Tax Filing Agent v2.3 using stale 2024 IRS bracket data — 920 users affected, SOX and IRS compliance risk. Tax season peak approaching — token volume up 34%. Payroll Calculator hallucination rate 6.1% (threshold 3%) on multi-state CA+TX calculations. Answer specifically about tax compliance, IRS bracket rules, QuickBooks bookkeeping, payroll multi-state calculations, and financial regulatory risk.',
-    evalData:{tsr:'81%',hall:'6.1%',safe:'91%',lat:'2.1s',banner:'<strong>Hallucination rate at 6.1% — critical.</strong> Tax Filing Agent v2.3 using stale 2024 IRS bracket data. 5 of 50 eval prompts failed on 2025 tax bracket questions. Immediate remediation required.'}
+    aiCtx:'You are Lumen, embedded in Intuit TurboTax & QuickBooks AI platform (Platform B). 847 financial AI assistants. 19% rejection rate (target <10%). P0: Tax Filing Agent v2.3 using stale 2024 IRS bracket data — 920 users affected, SOX and IRS compliance risk. Tax season peak approaching — token volume up 34%. Payroll Calculator hallucination rate 6.1% (threshold 3%) on multi-state CA+TX calculations. Answer specifically about tax compliance, IRS bracket rules, QuickBooks bookkeeping, payroll multi-state calculations, and financial regulatory risk.'
   },
   google:{
     name:'Platform C', label:'Google · AI Search & Workspace Agents',
@@ -2391,8 +2485,7 @@ const CONFIGS = {
       {color:'b',title:'Reduce latency p95 below 1.8s SLA — currently 1.9s',why:'SLA breach active. p99 at 3.1s. Query volume up 21%. Assistant routing inefficiency adding ~120ms overhead.',link:'obs'}
     ],
     categories:['Search','Assistant','Workspace','Cloud','Maps','Shopping'],
-    aiCtx:'You are Lumen, embedded in Google AI Search & Workspace Agents (Platform C). 3,847 agents across Search, Assistant, Workspace, Cloud, Maps, Shopping. 12% rejection rate. 3 routing conflicts in Assistant — 28,400 queries mis-routed. Latency p95 1.9s exceeds 1.8s SLA. Search accuracy −1.8pp post Gemini 1.5 Pro update. Token volume 18.7B/day. Answer specifically about Google Search quality, Workspace agent conflicts, Gemini model accuracy, latency at Google scale, and query resolution rate optimization.',
-    evalData:{tsr:'91%',hall:'2.2%',safe:'96%',lat:'1.9s',banner:'<strong>Latency p95 at 1.9s — above 1.8s SLA.</strong> 3 routing conflicts in Assistant degrading eval scores. Cloud Ops Assistant accuracy dropped 13pp post Gemini 1.5 Pro update. Eval rerun scheduled.'}
+    aiCtx:'You are Lumen, embedded in Google AI Search & Workspace Agents (Platform C). 3,847 agents across Search, Assistant, Workspace, Cloud, Maps, Shopping. 12% rejection rate. 3 routing conflicts in Assistant — 28,400 queries mis-routed. Latency p95 1.9s exceeds 1.8s SLA. Search accuracy −1.8pp post Gemini 1.5 Pro update. Token volume 18.7B/day. Answer specifically about Google Search quality, Workspace agent conflicts, Gemini model accuracy, latency at Google scale, and query resolution rate optimization.'
   },
   uber:{
     name:'Platform D', label:'Uber · Marketplace Decision Systems',
@@ -2416,8 +2509,7 @@ const CONFIGS = {
       {color:'b',title:'Fix Surge Pricing Engine — 3,400 riders affected in NYC/LA/CHI',why:'Surge accuracy −2pp post model update. Rider complaints +18%. Event-season distribution shift suspected.',link:'attr'}
     ],
     categories:['Driver support','Rider support','Surge pricing','Route optimization','Fraud detection','Eats'],
-    aiCtx:'You are Lumen, embedded in Uber Marketplace Decision Systems (Platform D). 2,140 real-time decision agents. 500ms is a HARD SLA — exceeding it causes trip booking failures. CRITICAL: Fraud Detection Agent blocking 340 valid driver payouts/day ($1.2M/week). Driver NPS dropped 4 points. Surge Pricing accuracy −2pp affecting 3,400 riders in NYC/LA/CHI. Latency p95 480ms — only 20ms buffer. Token volume 6.8B/day (+12% surge load). Answer specifically about driver/rider marketplace dynamics, fraud detection precision/recall tradeoffs, surge pricing algorithm accuracy, trip completion rate, and the 500ms hard SLA constraint.',
-    evalData:{tsr:'84%',hall:'3.8%',safe:'89%',lat:'480ms',banner:'<strong>Fraud Detection eval: false positive rate 4.2% — above 1.8% baseline.</strong> Precision/recall threshold miscalibrated post model update. 340 valid driver payouts blocked/day. Threshold recalibration required.'}
+    aiCtx:'You are Lumen, embedded in Uber Marketplace Decision Systems (Platform D). 2,140 real-time decision agents. 500ms is a HARD SLA — exceeding it causes trip booking failures. CRITICAL: Fraud Detection Agent blocking 340 valid driver payouts/day ($1.2M/week). Driver NPS dropped 4 points. Surge Pricing accuracy −2pp affecting 3,400 riders in NYC/LA/CHI. Latency p95 480ms — only 20ms buffer. Token volume 6.8B/day (+12% surge load). Answer specifically about driver/rider marketplace dynamics, fraud detection precision/recall tradeoffs, surge pricing algorithm accuracy, trip completion rate, and the 500ms hard SLA constraint.'
   }
 };
 
@@ -2613,10 +2705,10 @@ function nav(v){
   if(vEl)vEl.classList.add('active');
   const ni=document.getElementById('n-'+v);
   if(ni)ni.classList.add('active');
-  window.scrollTo(0,0);
-  const mainEl=document.getElementById('main');if(mainEl)mainEl.scrollTop=0;
   const names={overview:'Overview',incidents:'Incident Command',risk:'Risk Simulator',eval:'Evaluation Framework',canary:'Canary Deployment',cost:'Cost vs Quality',trace:'Trace & Replay',attr:'Failure Attribution',obs:'Observability',feedback:'Feedback Loop',compare:'Agent Comparison',exec:'Exec Briefing',devsb:'Developer View',execution:'Execution Tracking',intel:'System Intelligence',arch:'System Design',prd:'PRD & Tradeoffs',schema:'Data Schema'};
   document.getElementById('tb-bc').textContent=names[v]||v;
+  window.scrollTo(0,0);
+  const mainEl=document.getElementById('main'); if(mainEl) mainEl.scrollTop=0;
   if(v==='overview')renderCharts();
   if(v==='eval')renderEvalChart();
   if(v==='obs'){renderAlerts();renderLatChart();}
@@ -2629,6 +2721,8 @@ function nav(v){
   if(v==='cost')setTimeout(renderCostChart,60);
   if(v==='intel')setTimeout(renderIntelChart,60);
 }
+window.nav = nav;
+
 // ═══════════════════════════════════
 // COMPANY / ENV / PERSONA
 // ═══════════════════════════════════
@@ -2637,6 +2731,12 @@ let envProd=true;
 function setEl(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
 function setInner(id,val){const el=document.getElementById(id);if(el)el.innerHTML=val;}
 function setCompany(co){
+  // Recruiter / demo mode: lock to the URL-specified platform.
+  if(window._demoLock && co !== window._demoLock){
+    co = window._demoLock;
+    const sel=document.getElementById('co-sel');
+    if(sel) sel.value = co;
+  }
   currentCo=co;
   const c=CONFIGS[co];
 
@@ -2750,15 +2850,6 @@ function setCompany(co){
   // ── Risk Simulator category dropdown ──
   const sc=document.getElementById('sim-cat');
   if(sc) sc.innerHTML=c.categories.map(cat=>`<option>${cat}</option>`).join('');
-
-  // ── Eval metrics — company-specific ──
-  if(c.evalData){
-    const ed=c.evalData;
-    setEl('ev-tsr',ed.tsr); setEl('ev-hall',ed.hall);
-    setEl('ev-safe',ed.safe); setEl('ev-lat',ed.lat);
-    const evalBanner=document.getElementById('eval-banner-text');
-    if(evalBanner) evalBanner.innerHTML=ed.banner;
-  }
 
   // ── Re-render active charts ──
   if(curView==='overview') renderCharts();
@@ -3295,26 +3386,65 @@ function renderIntelChart(){
 // ═══════════════════════════════════
 // INIT
 // ═══════════════════════════════════
+// ═══════════════════════════════════
+// RECRUITER / DEMO MODE
+// URL flag: ?demo=intuit  (also accepts #demo=intuit)
+// When active: locks platform to Intuit, disables selector,
+// shows disclaimer banner, blocks all setCompany() reroutes.
+// ═══════════════════════════════════
+function detectDemoMode(){
+  try{
+    const qs = new URLSearchParams(window.location.search);
+    const hash = (window.location.hash||'').replace(/^#/,'');
+    const hashParams = new URLSearchParams(hash);
+    const demo = qs.get('demo') || hashParams.get('demo');
+    if(demo && ['intuit','ms','google','uber'].indexOf(demo)>=0){
+      return demo;
+    }
+  }catch(e){}
+  return null;
+}
+window._demoLock = detectDemoMode(); // null or 'intuit' etc.
+
 document.addEventListener('DOMContentLoaded',()=>{
-  // Seed active data for default company (ms)
-  window._activeIncidents = CO_INCIDENTS['ms'];
-  window._activeAttr = CO_ATTR['ms'];
-  window._activeAlerts = CO_ALERTS['ms'];
+  const lockedCo = window._demoLock;
+  const startCo = lockedCo || 'ms';
+
+  // Seed active data for starting company
+  window._activeIncidents = CO_INCIDENTS[startCo];
+  window._activeAttr = CO_ATTR[startCo];
+  window._activeAlerts = CO_ALERTS[startCo];
+
+  // If demo lock active, set up recruiter mode BEFORE setCompany runs
+  if(lockedCo){
+    document.body.classList.add('recruiter-mode');
+    const sel = document.getElementById('co-sel');
+    if(sel){
+      sel.value = lockedCo;
+      sel.disabled = true;
+      sel.classList.add('locked');
+      sel.title = 'Platform locked to Intuit for this demo. Remove ?demo=intuit from the URL to explore other platforms.';
+    }
+  }
+
   // setCompany handles all rendering
-  setCompany('ms');
+  setCompany(startCo);
   runSim();
   startRealtime();
+  document.getElementById('n-ab') && document.getElementById('n-ab').addEventListener('click',()=>setTimeout(renderAbChart,60));
+  document.getElementById('n-canary') && document.getElementById('n-canary').addEventListener('click',()=>setTimeout(renderAbChart,60));
 
-  // Global data-nav click handler — handles sidebar, buttons, links
+  // ── Global navigation: any element with data-nav routes through nav() ──
   document.addEventListener('click', function(e){
     const el = e.target.closest('[data-nav]');
     if(!el) return;
     e.preventDefault();
     const target = el.getAttribute('data-nav');
-    if(target){ nav(target); closeSidebar(); }
+    if(target && typeof nav === 'function'){
+      nav(target);
+      if(typeof closeSidebar === 'function') closeSidebar();
+    }
   });
-  document.getElementById('n-ab') && document.getElementById('n-ab').addEventListener('click',()=>setTimeout(renderAbChart,60));
-  document.getElementById('n-canary') && document.getElementById('n-canary').addEventListener('click',()=>setTimeout(renderAbChart,60));
 });
 
 // ── SIDEBAR MOBILE ──
