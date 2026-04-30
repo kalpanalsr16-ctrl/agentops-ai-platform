@@ -176,36 +176,72 @@ button,input,select,textarea{font-family:inherit;}
 body.recruiter-mode .tb-persona,
 body.recruiter-mode #env-badge{opacity:.45;pointer-events:none;filter:grayscale(.6);}
 
-/* Recruiter disclaimer banner — fixed strip below ctrlbar */
-#demo-banner{
-  display:none;position:fixed;left:0;right:0;
-  top:calc(var(--topbar) + var(--ctrl));
-  z-index:399;
-  background:linear-gradient(90deg, rgba(47,91,234,.06), rgba(124,58,237,.06));
-  border-bottom:1px solid var(--b0);
-  padding:8px 14px;font-size:11.5px;line-height:1.45;
-  color:var(--ink-2);font-family:var(--sans);
-  align-items:center;gap:10px;flex-wrap:wrap;
+/* ─── Recruiter disclaimer MODAL (shown on first load when ?demo=intuit is in URL) ─── */
+#demo-modal{
+  display:none;position:fixed;inset:0;z-index:9999;
+  align-items:center;justify-content:center;padding:20px;
+  font-family:var(--sans);
 }
-@media(min-width:768px){
-  #demo-banner{left:var(--sb);padding:8px 22px;}
+#demo-modal.open{display:flex;animation:dmFade .25s var(--ease);}
+#demo-modal::before{
+  content:"";position:absolute;inset:0;
+  background:rgba(13,15,20,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
 }
-body.recruiter-mode #demo-banner{display:flex;}
-body.recruiter-mode main#main{margin-top:calc(var(--topbar) + var(--ctrl) + 38px);}
-@media(max-width:767px){
-  body.recruiter-mode main#main{margin-top:calc(var(--topbar) + var(--ctrl) + 56px);}
+@keyframes dmFade{from{opacity:0}to{opacity:1}}
+@keyframes dmRise{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+#demo-modal .dm-card{
+  position:relative;z-index:1;
+  width:100%;max-width:480px;
+  background:var(--s0);border:1px solid var(--b1);
+  border-radius:14px;
+  box-shadow:0 20px 60px -10px rgba(13,15,20,.35), 0 8px 20px -6px rgba(13,15,20,.18);
+  padding:28px 26px 22px;
+  animation:dmRise .3s var(--ease);
 }
-#demo-banner .db-tag{
-  font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;
-  background:var(--accent);color:#fff;padding:3px 8px;border-radius:var(--r20);
-  text-transform:uppercase;flex-shrink:0;
+#demo-modal .dm-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;
+  background:var(--accent-s);color:var(--accent);
+  padding:4px 9px;border-radius:var(--r20);
+  text-transform:uppercase;
+  margin-bottom:14px;
 }
-#demo-banner .db-text{flex:1;min-width:200px;color:var(--ink-2);}
-#demo-banner .db-text b{color:var(--ink-1);font-weight:600;}
-#demo-banner .db-info{
-  font-size:10.5px;color:var(--ink-3);font-family:var(--mono);
-  padding:3px 8px;border:1px solid var(--b1);border-radius:var(--r8);
-  background:var(--s1);cursor:help;flex-shrink:0;
+#demo-modal .dm-tag::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);
+}
+#demo-modal .dm-title{
+  font-size:18px;font-weight:600;color:var(--ink-1);
+  letter-spacing:-.01em;line-height:1.3;margin-bottom:10px;
+}
+#demo-modal .dm-text{
+  font-size:13px;line-height:1.55;color:var(--ink-2);
+  margin-bottom:16px;
+}
+#demo-modal .dm-text b{color:var(--ink-1);font-weight:600;}
+#demo-modal .dm-meta{
+  font-size:11px;line-height:1.5;color:var(--ink-3);
+  padding:10px 12px;background:var(--s1);border:1px solid var(--b0);
+  border-radius:var(--r8);margin-bottom:18px;
+}
+#demo-modal .dm-actions{display:flex;justify-content:flex-end;gap:8px;}
+#demo-modal .dm-btn{
+  padding:8px 16px;border-radius:var(--r8);font-size:12.5px;font-weight:500;
+  font-family:var(--sans);cursor:pointer;transition:all var(--t1) var(--ease);
+  border:1px solid var(--accent);background:var(--accent);color:#fff;
+}
+#demo-modal .dm-btn:hover{background:var(--accent-m);border-color:var(--accent-m);}
+#demo-modal .dm-close{
+  position:absolute;top:12px;right:12px;
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  background:transparent;border:1px solid transparent;color:var(--ink-3);
+  font-size:18px;line-height:1;cursor:pointer;
+  transition:all var(--t1) var(--ease);
+}
+#demo-modal .dm-close:hover{background:var(--s2);border-color:var(--b1);color:var(--ink-1);}
+@media(max-width:480px){
+  #demo-modal .dm-card{padding:22px 18px 18px;}
+  #demo-modal .dm-title{font-size:16px;}
 }
 
 /* Env badge */
@@ -1071,11 +1107,22 @@ body.recruiter-mode main#main{margin-top:calc(var(--topbar) + var(--ctrl) + 38px
   <div class="si" data-nav='schema' id="n-schema"><span class="si-icon">{}</span>Data Schema</div>
 </nav>
 
-<!-- ══ RECRUITER DEMO BANNER (shown only when ?demo=intuit URL flag is set; sibling of main, not inside it) ══ -->
-<div id="demo-banner" role="note" aria-label="Demo disclaimer">
-  <span class="db-tag">Portfolio Demo</span>
-  <span class="db-text">This is an <b>illustrative product framework</b> built by a candidate for the Intuit Sr Staff PM (Virtual Expert Platform) role. Metrics shown for <b>Platform B · Intuit</b> are <b>simulated</b>, modelled from publicly available sources (press releases, Intuit financial reports, IRS / SOX guidance). Not affiliated with or endorsed by Intuit Inc.</span>
-  <span class="db-info" title="Built as a thinking artifact to demonstrate product reasoning, prioritisation and 0→1 framing for the Conversations Observability mandate.">ⓘ&nbsp;Why this exists</span>
+<!-- ══ RECRUITER DEMO MODAL (shown on first load when ?demo=intuit URL flag is set; sibling of main, not inside it) ══ -->
+<div id="demo-modal" role="dialog" aria-modal="true" aria-labelledby="dm-title" aria-describedby="dm-text">
+  <div class="dm-card">
+    <button class="dm-close" type="button" aria-label="Close" onclick="closeDemoModal()">×</button>
+    <div class="dm-tag">Portfolio Demo</div>
+    <div class="dm-title" id="dm-title">A quick note before you explore</div>
+    <div class="dm-text" id="dm-text">
+      This is an <b>illustrative product framework</b> built by a candidate as a thinking artifact for the Conversations Observability mandate. The metrics shown are <b>simulated</b> — modelled from publicly available sources such as press releases, financial reports, and IRS / SOX guidance.
+    </div>
+    <div class="dm-meta">
+      Built independently. Not affiliated with or endorsed by Intuit Inc.
+    </div>
+    <div class="dm-actions">
+      <button class="dm-btn" type="button" onclick="closeDemoModal()">Got it — let me explore</button>
+    </div>
+  </div>
 </div>
 
 <main id="main">
@@ -3423,7 +3470,20 @@ document.addEventListener('DOMContentLoaded',()=>{
       sel.value = lockedCo;
       sel.disabled = true;
       sel.classList.add('locked');
-      sel.title = 'Platform locked to Intuit for this demo. Remove ?demo=intuit from the URL to explore other platforms.';
+      sel.title = 'Platform locked for this demo. Remove ?demo=intuit from the URL to explore other platforms.';
+    }
+    // Show the disclaimer modal once on landing
+    const modal = document.getElementById('demo-modal');
+    if(modal){
+      modal.classList.add('open');
+      // Close when clicking the dim overlay (but not the card itself)
+      modal.addEventListener('click', function(e){
+        if(e.target === modal) closeDemoModal();
+      });
+      // Close on ESC
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && modal.classList.contains('open')) closeDemoModal();
+      });
     }
   }
 
@@ -3455,6 +3515,10 @@ function toggleSidebar(){
 function closeSidebar(){
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebar-overlay').classList.remove('open');
+}
+function closeDemoModal(){
+  const m = document.getElementById('demo-modal');
+  if(m) m.classList.remove('open');
 }
 </script>
 </body>
